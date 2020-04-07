@@ -9,30 +9,22 @@
 #import <React/RCTDefines.h>
 #import <WebKit/WebKit.h>
 
-@class RNCWebView;
+@class RNCWKWebView;
 
-@protocol RNCWebViewDelegate <NSObject>
+@protocol RNCWKWebViewDelegate <NSObject>
 
-- (BOOL)webView:(RNCWebView *_Nonnull)webView
-   shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *_Nonnull)request
-   withCallback:(RCTDirectEventBlock _Nonnull)callback;
+- (BOOL)webView:(RNCWKWebView *)webView
+   shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
+   withCallback:(RCTDirectEventBlock)callback;
 
 @end
 
-@interface RNCWeakScriptMessageDelegate : NSObject<WKScriptMessageHandler>
-@property (nonatomic, weak) id<WKScriptMessageHandler> scriptDelegate;
-- (instancetype)initWithDelegate:(id<WKScriptMessageHandler>)scriptDelegate;
-@end
+@interface RNCWKWebView : RCTView
 
-@interface RNCWebView : RCTView
-
-@property (nonatomic, weak) id<RNCWebViewDelegate> _Nullable delegate;
-@property (nonatomic, copy) NSDictionary * _Nullable source;
+@property (nonatomic, weak) id<RNCWKWebViewDelegate> delegate;
+@property (nonatomic, copy) NSDictionary *source;
 @property (nonatomic, assign) BOOL messagingEnabled;
-@property (nonatomic, copy) NSString * _Nullable injectedJavaScript;
-@property (nonatomic, copy) NSString * _Nullable injectedJavaScriptBeforeContentLoaded;
-@property (nonatomic, assign) BOOL injectedJavaScriptForMainFrameOnly;
-@property (nonatomic, assign) BOOL injectedJavaScriptBeforeContentLoadedForMainFrameOnly;
+@property (nonatomic, copy) NSString *injectedJavaScript;
 @property (nonatomic, assign) BOOL scrollEnabled;
 @property (nonatomic, assign) BOOL sharedCookiesEnabled;
 @property (nonatomic, assign) BOOL pagingEnabled;
@@ -50,21 +42,17 @@
 @property (nonatomic, assign) BOOL allowsBackForwardNavigationGestures;
 @property (nonatomic, assign) BOOL incognito;
 @property (nonatomic, assign) BOOL useSharedProcessPool;
-@property (nonatomic, copy) NSString * _Nullable userAgent;
-@property (nonatomic, copy) NSString * _Nullable applicationNameForUserAgent;
+@property (nonatomic, copy) NSString *userAgent;
+@property (nonatomic, copy) NSString *applicationNameForUserAgent;
 @property (nonatomic, assign) BOOL cacheEnabled;
-@property (nonatomic, assign) BOOL javaScriptEnabled;
-@property (nonatomic, assign) BOOL allowFileAccessFromFileURLs;
 @property (nonatomic, assign) BOOL allowsLinkPreview;
 @property (nonatomic, assign) BOOL showsHorizontalScrollIndicator;
 @property (nonatomic, assign) BOOL showsVerticalScrollIndicator;
 @property (nonatomic, assign) BOOL directionalLockEnabled;
-@property (nonatomic, copy) NSString * _Nullable allowingReadAccessToURL;
 
 + (void)setClientAuthenticationCredential:(nullable NSURLCredential*)credential;
-+ (void)setCustomCertificatesForHost:(nullable NSDictionary *)certificates;
-- (void)postMessage:(NSString *_Nullable)message;
-- (void)injectJavaScript:(NSString *_Nullable)script;
+- (void)postMessage:(NSString *)message;
+- (void)injectJavaScript:(NSString *)script;
 - (void)goForward;
 - (void)goBack;
 - (void)reload;
